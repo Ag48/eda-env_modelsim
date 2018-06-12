@@ -34,13 +34,12 @@ RUN yum install -y emacs
 RUN yum install -y glib.i686 libX*.i686 ncurses-libs.i686
 RUN cd /tmp; wget --spider -nv --timeout 10 -t 1 ${url_donwload_modelsim}; wget -c ${url_donwload_modelsim}
 RUN cd /tmp; chmod a+x ${bin_modelsim}; ./${bin_modelsim} --version
-RUN cd /tmp; ./${bin_modelsim} --mode unattended --installdir ${path_install_modelsim} --unattendedmodeui minimal 
+RUN cd /tmp; ./${bin_modelsim} --mode unattended --installdir ${path_install_modelsim} --unattendedmodeui none
 ## for bug in ver.16.0
 RUN cd ${path_install_modelsim}/modelsim_ase; ln -s linux linux_rh60
 ## Test bin
 RUN ${path_install_modelsim}/modelsim_ase/bin/vsim -c -version
 RUN echo "ModelSim has installed successflly"
 ## set modelsim's path to PATH
-RUN echo "export PATH=${PATH}:/eda/intelFPGA/16.0/modelsim_ase/bin; echo 'set vsim path to PATH'" >> /etc/bashrc
-RUN which vsim
+RUN echo "export PATH=${PATH}:/eda/intelFPGA/16.0/modelsim_ase/bin; echo 'set vsim path to PATH'" >> /etc/bashrc; source /etc/bashrc; which vsim
 CMD echo "Now running..."
