@@ -16,7 +16,7 @@ RUN \rm /etc/localtime; ln -s /usr/share/zoneinfo/Asia/Tokyo /etc/localtime
 RUN useradd -c 'for eda test' -p I1oveEDA -s /bin/bash -d /home/eda eda
 RUN echo "User 'eda' has generated successfully" 
 # apply packages
-RUN yum install -y epel-release wget
+RUN yum install -y epel-release wget openssh-server
 
 # for verilator
 # RUN yum install -y git gcc gcc-c++ autoconf flex bison
@@ -32,6 +32,7 @@ RUN yum install -y emacs
 # for modelsim
 ## modelsim's url ref : https://gist.github.com/zweed4u/ecc03ade1da8c51127a5485830d7a621
 RUN yum install -y glib.i686 libX*.i686 ncurses-libs.i686
+RUN yum groupinstall "X Window System"
 RUN cd /tmp; wget --spider -nv --timeout 10 -t 1 ${url_donwload_modelsim}; wget -c ${url_donwload_modelsim}
 RUN cd /tmp; chmod a+x ${bin_modelsim}; ./${bin_modelsim} --version
 RUN cd /tmp; ./${bin_modelsim} --mode unattended --installdir ${path_install_modelsim} --unattendedmodeui none
