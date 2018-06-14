@@ -9,7 +9,7 @@ ARG path_install_modelsim="/eda/intelFPGA/${version_modelsim}"
 # for modelsim
 ## modelsim's url ref : https://gist.github.com/zweed4u/ecc03ade1da8c51127a5485830d7a621
 RUN yum install -y glib.i686 libX*.i686 ncurses-libs.i686
-RUN yum groupinstall "X Window System"
+RUN yum groupinstall -y "X Window System"
 RUN cd /tmp; wget --spider -nv --timeout 10 -t 1 ${url_donwload_modelsim}; wget -c ${url_donwload_modelsim}
 RUN cd /tmp; chmod a+x ${bin_modelsim}; ./${bin_modelsim} --version
 RUN cd /tmp; ./${bin_modelsim} --mode unattended --installdir ${path_install_modelsim} --unattendedmodeui none
