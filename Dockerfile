@@ -12,8 +12,7 @@ RUN yum update -y && yum install -y glib.i686 libX*.i686 ncurses-libs.i686
 RUN yum groupinstall -y "X Window System"
 RUN cd /tmp; wget --spider -nv --timeout 10 -t 1 ${url_donwload_modelsim}; wget -c -nv ${url_donwload_modelsim}
 # RUN cd /tmp; chmod a+x ${bin_modelsim}; ./${bin_modelsim} --version
-RUN sync
-RUN cd /tmp; chmod a+x ${bin_modelsim}; ./${bin_modelsim} --mode unattended --installdir ${path_install_modelsim} --unattendedmodeui none
+RUN cd /tmp; chmod a+x ${bin_modelsim}; sync; ./${bin_modelsim} --mode unattended --installdir ${path_install_modelsim} --unattendedmodeui none
 RUN rm /tmp/${bin_modelsim}
 ## for bug in ver.16.0
 RUN cd ${path_install_modelsim}/modelsim_ase; ln -s linux linux_rh60
