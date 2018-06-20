@@ -1,4 +1,4 @@
-FROM stomoki/eda-env_varilator_emacs-verilog-mode
+FROM stomoki/eda-env_verilator_emacs-verilog-mode
 
 ARG version_modelsim="16.0"
 ARG build_modelsim="211"
@@ -10,14 +10,13 @@ ARG path_install_modelsim="/eda/intelFPGA/${version_modelsim}"
 ## modelsim's url ref : https://gist.github.com/zweed4u/ecc03ade1da8c51127a5485830d7a621
 RUN yum install -y glib.i686 libX*.i686 ncurses-libs.i686
 RUN yum groupinstall -y "X Window System"
-RUN cd /tmp; wget --spider -nv --timeout 10 -t 1 ${url_donwload_modelsim}; wget -c ${url_donwload_modelsim}
-# RUN cd /tmp; chmod a+x ${bin_modelsim}; ./${bin_modelsim} --version
-RUN cd /tmp; ./${bin_modelsim} --mode unattended --installdir ${path_install_modelsim} --unattendedmodeui none
-RUN rm /tmp/${bin_modelsim}
+RUN wget --spider -nv --timeout 10 -t 1 ${url_donwload_modelsim} 
+RUN cd /tmp; wget -c -nv ${url_donwload_modelsim}; ./${bin_modelsim} --mode unattended --installdir ${path_install_modelsim} --unattendedmodeui none; rm /tmp/${bin_modelsim}
 ## for bug in ver.16.0
 RUN cd ${path_install_modelsim}/modelsim_ase; ln -s linux linux_rh60
 ## Test bin
 RUN ${path_install_modelsim}/modelsim_ase/bin/vsim -c -version
 RUN echo "ModelSim has installed successflly"
 ## set modelsim's path to PATH
-RUN echo "export PATH=${PATH}:/eda/intelFPGA/16.0/modelsim_ase/bin; echo 'set vsim path to PATH'" >> /etc/bashrc; source /etc/bashrc; which vsim
+RUN echo "export PATH=${PATH}:/eda/intelFPGA/16.0/modelsim_ase/bin; echo 'set vsim path to PATH'" >> /etc/bashrc 
+RUN source /etc/bashrc; which vsim
