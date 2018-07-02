@@ -20,3 +20,11 @@ RUN echo "ModelSim has installed successflly"
 ## set modelsim's path to PATH
 RUN echo "export PATH=${PATH}:/eda/intelFPGA/16.0/modelsim_ase/bin; echo 'set vsim path to PATH'" >> /etc/bashrc 
 RUN source /etc/bashrc; which vsim
+
+# set ssh config & gen ssh-key
+RUN sed -ri 's/^UsePAM yes/UsePAM no/' /etc/ssh/sshd_config
+## gen ssh-key
+RUN /etc/init.d/sshd start 
+EXPOSE 22
+
+CMD /usr/sbin/sshd -D
