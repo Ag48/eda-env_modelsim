@@ -1,4 +1,5 @@
-FROM stomoki/eda-env_verilator_emacs-verilog-mode
+# FROM stomoki/eda-env_verilator_emacs-verilog-mode
+FROM stomoki/eda-env_emacs-verilog-mode
 
 ARG version_modelsim="16.0"
 ARG build_modelsim="211"
@@ -26,5 +27,6 @@ RUN sed -ri 's/^UsePAM yes/UsePAM no/' /etc/ssh/sshd_config
 ## gen ssh-key
 RUN /etc/init.d/sshd start 
 EXPOSE 22
+ENV "PATH=eda/intelFPGA/16.0/modelsim_ase/bin:${PATH}"
 
-CMD /usr/sbin/sshd -D
+# CMD /usr/sbin/sshd -D
