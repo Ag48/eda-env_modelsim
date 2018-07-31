@@ -27,6 +27,6 @@ RUN sed -ri 's/^UsePAM yes/UsePAM no/' /etc/ssh/sshd_config
 ## gen ssh-key
 RUN /etc/init.d/sshd start 
 EXPOSE 22
-ENV "PATH=eda/intelFPGA/16.0/modelsim_ase/bin:${PATH}"
+# ENV "PATH=/eda/intelFPGA/16.0/modelsim_ase/bin:${PATH}"
 
-# CMD /usr/sbin/sshd -D
+CMD /usr/sbin/sshd -D
