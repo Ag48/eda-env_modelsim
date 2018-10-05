@@ -9,7 +9,15 @@ ARG path_install_modelsim="/eda/intelFPGA/${version_modelsim}"
 
 # for modelsim
 ## modelsim's url ref : https://gist.github.com/zweed4u/ecc03ade1da8c51127a5485830d7a621
-RUN yum update -y && yum install -y glib.i686 libX*.i686 ncurses-libs.i686
+## installation process ref: https://fpga.kice.tokyo/design/centos7-modelsim
+RUN yum update -y && \
+  yum install -y \
+    glib.i686 \
+    glib-devel.i686 \
+    libX11-devel.i686 \
+    libXext-devel.i686 \
+    libXft-devel.i686 \
+    ncurses-libs.i686
 RUN yum groupinstall -y "X Window System"
 RUN wget --spider -nv --timeout 10 -t 1 ${url_donwload_modelsim} 
 RUN cd /tmp; wget -c -nv ${url_donwload_modelsim}; chmod a+x ${bin_modelsim}; sync; ./${bin_modelsim} --mode unattended --installdir ${path_install_modelsim} --unattendedmodeui none; rm /tmp/${bin_modelsim}
