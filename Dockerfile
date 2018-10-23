@@ -1,4 +1,3 @@
-# FROM stomoki/eda-env_verilator_emacs-verilog-mode
 FROM stomoki/eda-env_emacs-verilog-mode AS building
 WORKDIR /tmp
 
@@ -19,10 +18,8 @@ RUN yum update -y && \
     libXext-devel.i686 \
     libXft-devel.i686 \
     ncurses-libs.i686
-# RUN yum groupinstall -y "X Window System"
 RUN wget --spider -nv --timeout 10 -t 1 ${url_donwload_modelsim} 
 RUN wget -c -nv ${url_donwload_modelsim}
-# COPY ${bin_modelsim} .
 RUN chmod a+x ${bin_modelsim}
 RUN ./${bin_modelsim} --mode unattended --installdir ${path_install_modelsim} --unattendedmodeui none
 ## for bug in ver.16.0
@@ -31,27 +28,12 @@ RUN rm -rf ${path_install_modelsim}/modelsim_ase/altera
 ## Test bin
 RUN ${path_install_modelsim}/modelsim_ase/bin/vsim -c -version
 RUN echo "ModelSim has installed successflly"
-## set modelsim's path to PATH
-# RUN echo "export PATH=${PATH}:/eda/intelFPGA/16.0/modelsim_ase/bin; echo 'set vsim path to PATH'" >> /etc/bashrc 
-# RUN source /etc/bashrc; which vsim
-
-# set ssh config & gen ssh-key
-# RUN sed -ri 's/^UsePAM yes/UsePAM no/' /etc/ssh/sshd_config
-## gen ssh-key
-# RUN /etc/init.d/sshd start 
-# EXPOSE 22
-# ENV "PATH=/eda/intelFPGA/16.0/modelsim_ase/bin:${PATH}"
-
-# CMD /usr/sbin/sshd -D
-
 
 FROM centos:6
 COPY --from=building /tmp/modelsim_ase /vsim-ase
 RUN yum update -y && \
   yum install -y \
     glibc.i686 \
-    # glib-devel.i686 \
-    # libX11-devel.i686 \
     libXext-devel.i686 \
     libXft-devel.i686 \
     ncurses-libs.i686
