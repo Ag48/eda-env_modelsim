@@ -21,7 +21,7 @@ RUN yum update -y && \
 RUN wget --spider -nv --timeout 10 -t 1 ${url_donwload_modelsim} 
 RUN wget -c -nv ${url_donwload_modelsim}
 RUN chmod a+x ${bin_modelsim}
-RUN ${bin_modelsim} --mode unattended --installdir ${path_install_modelsim} --unattendedmodeui none
+RUN ./${bin_modelsim} --mode unattended --installdir ${path_install_modelsim} --unattendedmodeui none
 ## for bug in ver.16.0
 RUN cd ${path_install_modelsim}/modelsim_ase; ln -s linux linux_rh60
 RUN rm -rf ${path_install_modelsim}/modelsim_ase/altera
@@ -37,4 +37,5 @@ RUN yum update -y && \
     libXext-devel.i686 \
     libXft-devel.i686 \
     ncurses-libs.i686
-RUN echo "export PATH=${PATH}:/vsim-ase/bin; echo 'set vsim path to PATH'" >> /etc/bashrc 
+ENV PATH="/vsim-ase/bin:${PATH}"
+RUN vsim -c -version
