@@ -20,9 +20,9 @@ RUN yum update -y \
     libXft-devel.i686 \
     ncurses-libs.i686
 # RUN wget --spider -nv --timeout 10 -t 1 ${url_donwload_modelsim} 
-# RUN wget -c -nv ${url_donwload_modelsim} \
-#   && chmod a+x ${bin_modelsim}
-COPY ./${bin_modelsim} /tmp
+RUN wget -c -nv ${url_donwload_modelsim} \
+  && chmod a+x ${bin_modelsim}
+# COPY ./${bin_modelsim} /tmp
 RUN ./${bin_modelsim} --mode unattended --installdir ${path_install_modelsim} --unattendedmodeui none
 ## for bug in ver.16.0
 RUN cd ${path_install_modelsim}/modelsim_ase; ln -s linux linux_rh60
@@ -53,6 +53,7 @@ RUN vsim -c -version
 #   && groupmod -g 1000 eda
 # RUN sed -ri 's/^UsePAM yes/UsePAM no/' /etc/ssh/sshd_config \
 #   && /etc/init.d/sshd start
+RUN /etc/init.d/sshd start
 EXPOSE 22
 
 CMD /usr/sbin/sshd -D
