@@ -33,7 +33,7 @@ RUN ${path_install_modelsim}/modelsim_ase/bin/vsim -c -version
 
 
 # Deploy 
-FROM stomoki/eda-env_emacs-verilog-mode:latest
+FROM stomoki/eda-env_emacs-verilog-mode:v2
 COPY --from=building /tmp/modelsim_ase /vsim-ase
 RUN yum update -y \
   && yum install -y \
@@ -41,6 +41,7 @@ RUN yum update -y \
     libXext-devel.i686 \
     libXft-devel.i686 \
     ncurses-libs.i686 \
+    zlib \
   && yum groupinstall -y "X Window System" \
   && yum clean all
 RUN echo "export PATH=${PATH}:/vsim-ase/bin; echo 'set vsim path to PATH'" >> /etc/bashrc 
